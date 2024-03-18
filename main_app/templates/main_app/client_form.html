@@ -1,0 +1,38 @@
+{% extends 'mail_sender/base.html' %}
+{% load crispy_forms_filters %}
+
+{% block content %}
+    <div class="container px-4 py-4">
+        <div class="row row-cols-3 mb-4">
+            <div class="col-12">
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="row text-center">
+                        <H3> Форма для
+                            {% if object %}
+                                редактирования
+                            {% else %}
+                                добавления нового
+                            {% endif %}
+                            клиента</H3>
+                    </div>
+                    <div class="row-cols-3 ">
+                        <div class="container-fluid align-content-start">
+                            {{ form | crispy }}
+                            {% if perms.mail_sender.add_client or perms.mail_sender.change_client %}
+                                <button type="submit" class="btn btn-primary">
+                                    {% if object %}
+                                        Изменить
+                                    {% else %}
+                                        Сохранить
+                                    {% endif %}
+                                </button>
+                            {% endif %}
+                            <a href="{% url 'mail_sender:personal_area' %}" class="btn btn-danger ">Отмена</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

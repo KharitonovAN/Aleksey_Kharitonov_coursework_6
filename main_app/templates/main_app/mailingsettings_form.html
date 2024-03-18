@@ -1,0 +1,37 @@
+{% extends 'main_app/base.html' %}
+{% load crispy_forms_filters %}
+
+
+{% block content %}
+    <div class="container px-4 py-4">
+        <div class="row row-cols-3 mb-4">
+            <div class="col-12 ">
+                <div class="row text-center">
+                    <H3>Заполните настройки для планировщика</H3>
+                </div>
+
+                <form class="row" method="post">
+                    {% csrf_token %}
+                    <div class="col-12 my-5">
+                        <div class="row-cols-2 align-items-center">
+                            <div class="container-fluid ">
+                                {{ form | crispy }}
+                                {{ form.media }}
+                                {% if perms.mail_sender.add_mailingsettings or perms.mail_sender.change_mailingsettings or request.user.is_staff %}
+                                    <button type="submit" class="btn btn-primary">
+                                        {% if object %}
+                                            Изменить
+                                        {% else %}
+                                            Сохранить
+                                        {% endif %}
+                                    </button>
+                                {% endif %}
+                                <a href="{% url 'main_app:mails_list' %}" class="btn btn-danger ">Отмена</a>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+{% endblock %}

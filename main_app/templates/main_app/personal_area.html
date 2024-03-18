@@ -1,0 +1,124 @@
+{% extends 'main_app/base.html' %}
+
+
+{% block content %}
+    <div class="container px-4 py-4">
+        <div class="row row-cols-3 mb-4">
+            <div class="btn-toolbar mx-3 ite" role="toolbar" aria-label="Панель инструментов с группами кнопок">
+                <div class="btn-group mb-3" role="group" aria-label="Группа кнопок с вложенным раскрывающимся списком">
+                    {% if user.is_authenticated %}
+                        {% for group in request.user.groups.all %}
+                            {% if group.name == 'Moderator' %}
+                                <a href="{% url 'users:all_user' %}" type="button"
+                                   class="btn btn-primary">Пользователи</a>
+                                <a href="{% url 'main_app:mails_list' %}" type="button"
+                                   class="btn btn-primary">Рассылки</a>
+
+                                <div class="btn-group" role="group">
+                                    {% elif group.name == 'BlogManager' %}
+                                    <button type="button" class="btn btn-primary dropdown-toggle"
+                                            data-bs-toggle="dropdown" aria-expanded="false">Управление Блогом
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item" href="{% url 'blogpost:blogpost_article' %}">Добавить
+                                            статью</a></li>
+                                        <li><a class="dropdown-item" href="{% url 'blogpost:blogpost_list' %}">Все статьи</a>
+                                        </li>
+                                    </ul>
+                                    {% else %}
+                                    <button type="button" class="btn btn-primary dropdown-toggle"
+                                            data-bs-toggle="dropdown" aria-expanded="false">Клиенты
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item"
+                                               href="{% url 'main_app:create_client' %}">Добавить</a></li>
+                                        <li><a class="dropdown-item" href="{% url 'main_app:client_list' %}">Мои
+                                            клиенты</a>
+                                        </li>
+                                    </ul>
+                                    <button type="button" class="btn btn-primary dropdown-toggle"
+                                            data-bs-toggle="dropdown" aria-expanded="false">Сообщение
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item"
+                                               href="{% url 'main_app:create_message' %}">Создать</a></li>
+                                        <li><a class="dropdown-item" href="{% url 'main_app:list_messages' %}">Мои
+                                            сообщения</a>
+                                        </li>
+                                    </ul>
+                                    <button type="button" class="btn btn-primary dropdown-toggle"
+                                            data-bs-toggle="dropdown" aria-expanded="false">Рассылки
+                                    </button>
+                                    <ul class="dropdown-menu">
+                                        <li><a class="dropdown-item"
+                                               href="{% url 'main_app:mails_create' %}">Создать</a></li>
+                                        <li><a class="dropdown-item" href="{% url 'main_app:mails_list' %}">Мои
+                                            рассылки</a>
+                                        </li>
+                                    </ul>
+                                    <a href="{% url 'main_app:logs' %}" type="button"
+                                       class="btn btn-primary">Логи</a>
+                                </div>
+                            {% endif %}
+                        {% endfor %}
+
+                        {% if request.user.is_superuser %}
+                            <a href="{% url 'users:all_user' %}" type="button"
+                               class="btn btn-primary">Пользователи</a>
+                            <a href="{% url 'main_app:mails_list' %}" type="button"
+                               class="btn btn-primary">Рассылки</a>
+                            <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-primary dropdown-toggle"
+                                    data-bs-toggle="dropdown" aria-expanded="false">Управление Блогом
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="{% url 'blogpost:create_blogpost' %}">Добавить
+                                    статью</a></li>
+                                <li><a class="dropdown-item" href="{% url 'blogpost:blogpost_list' %}">Все статьи</a>
+                                </li>
+                            </ul>
+                            <button type="button" class="btn btn-primary dropdown-toggle"
+                                    data-bs-toggle="dropdown" aria-expanded="false">Клиенты
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item"
+                                       href="{% url 'main_app:create_client' %}">Добавить</a></li>
+                                <li><a class="dropdown-item" href="{% url 'main_app:client_list' %}">Мои
+                                    клиенты</a>
+                                </li>
+                            </ul>
+                            <button type="button" class="btn btn-primary dropdown-toggle"
+                                    data-bs-toggle="dropdown" aria-expanded="false">Сообщение
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item"
+                                       href="{% url 'main_app:create_message' %}">Создать</a></li>
+                                <li><a class="dropdown-item" href="{% url 'main_app:list_messages' %}">Мои
+                                    сообщения</a>
+                                </li>
+                            </ul>
+                            <button type="button" class="btn btn-primary dropdown-toggle"
+                                    data-bs-toggle="dropdown" aria-expanded="false">Рассылки
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item"
+                                       href="{% url 'main_app:mails_create' %}">Создать</a></li>
+                                <li><a class="dropdown-item" href="{% url 'main_app:mails_list' %}">Мои
+                                    рассылки</a>
+                                </li>
+                            </ul>
+                            <a href="{% url 'main_app:logs' %}" type="button" class="btn btn-primary">Логи</a>
+                        {% endif %}
+                    {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
+            <h1 class="display-4 fw-normal text-body-emphasis">Инструкция</h1>
+            <p class="fs-5 text-body-secondary">Добавьте клиентов, сообщение и внесите настройки в планировщик</p>
+        </div>
+
+    </div>
+{% endblock %}

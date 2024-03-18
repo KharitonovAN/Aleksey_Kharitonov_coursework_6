@@ -1,0 +1,56 @@
+{% extends 'main_app/base.html' %}
+
+
+{% block content %}
+    <div class="pricing-header p-3 pb-md-4 mx-auto text-center">
+        <p class="fs-5 text-body-secondary">Welcome to the service</p>
+        <h1 class="display-4 fw-normal text-body-emphasis">Spamer!</h1>
+
+    </div>
+
+    <h2 class="display-6 text-center mb-4">our blog</h2>
+
+    <div class="container px-4 py-4">
+        <div class="row row-cols-3 mb-4">
+            {% for object in blog_content %}
+                <div class="card mb-4 rounded-3 shadow-sm gx-5" style="width: 18rem;">
+                    <div class="card-header">
+                        <img src="{{ object.image.url }}" class="card-img-top" alt="...">
+                    </div>
+                    <div class="card-body">
+                        <h5 class="card-title">{{ object.title }}</h5>
+                        <p class="card-text">{{ object.body|truncatewords:10 }}</p>
+                        <a href="{% url 'blogpost:blogpost_detail' object.pk %}" class="btn btn-primary">Подробнее</a>
+                    </div>
+                </div>
+
+            {% endfor %}
+
+        </div>
+        <div class="container px-4">
+            <h2 class="display-6 text-center mb-4">statistics:</h2>
+
+            <div class="table-responsive">
+                <table class="table text-center">
+                    <tbody>
+                    <tr>
+                        <th scope="row" class="text-start">Total number of mailings:</th>
+                        <td>{{ count_mailing }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row" class="text-start">Number of active mailings:</th>
+                        <td>{{ active_mailing }}</td>
+                    </tr>
+                    </tbody>
+
+                    <tbody>
+                    <tr>
+                        <th scope="row" class="text-start">Number of unique clients:</th>
+                        <td>{{ uniqe_clients }}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -1,0 +1,37 @@
+{% extends 'main_app/base.html' %}
+
+
+{% block content %}
+    <div class="container px-4 py-4">
+        <div class="row row-cols-3 mb-4">
+            <div class="col-12">
+                <div class="card mb-4">
+                    <div class="card-header text-center">
+                        <h5><strong>Название:</strong> {{object.name}}</h5>
+                    </div>
+                    <div class="card-body">
+                        <p class="card-text"><b>Время начала / окончания рассылки:</b><br>
+                            {{ object.start_time }} / {{ object.stop_time }}</p>
+                        <p class="card-text"><b>Периодичность:</b> {{object.periodicity}}</p>
+                        <p class="card-text"><b>Статус:</b> {{ object.status }}</p>
+                        <p class="card-text"><b>Текст сообщения:</b><br> {{ object.message.body }}</p>
+                        <p class="card-text"><b>Клиенты:</b><br>
+                            {% for client in clients %}
+                                {{ client.email }} - {{ client.full_name }}<br>
+                            {% endfor %}</p>
+                    </div>
+                    <div class="col mb-3 md-3 text-center">
+                        {% if perms.mail_sender.change_mailingsettings or request.user.is_staff %}
+                            <a href="{% url 'main_app:mails_edit' object.pk %}"
+                               class="btn btn-outline-info">Редактировать</a>
+                        {% endif %}
+                        {% if perms.mail_sender.delete_mailingsettings %}
+                            <a href="{% url 'main_app:mails_delete' object.pk %}"
+                               class="btn btn-outline-danger">Удалить</a>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
